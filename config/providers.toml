@@ -1,0 +1,58 @@
+# Servo-Skull LLM provider configuration
+#
+# Local-first by default: the primary provider is a local Ollama endpoint, so
+# document content never leaves the machine. The cloud fallback only activates
+# if the local provider times out or refuses a connection — and only if its
+# API key is present in the environment.
+#
+# Environment variables are expanded with ${VAR} syntax.
+
+[routing]
+primary = "local_gemma"
+fallback = "cloud_openai"
+
+# ── Local (default) ────────────────────────────────────────────────
+[providers.local_gemma]
+type = "ollama"
+base_url = "http://127.0.0.1:11434/v1"
+model = "gemma4:26b"
+temperature = 0.0
+timeout = 300.0
+
+# ── Cloud fallback (optional) ──────────────────────────────────────
+# Leave api_key empty to disable the fallback entirely. When set via the
+# environment, content is only ever sent here if the local provider fails.
+[providers.cloud_openai]
+type = "openai"
+api_key = "${OPENAI_API_KEY}"
+model = "gpt-4o"
+timeout = 300.0
+
+# ── Apple Silicon MLX (optional) ───────────────────────────────────
+# Requires the `mlx` extra: pip install "servo-skull[mlx]"
+[providers.local_mlx]
+type = "mlx"
+model = "mlx-community/gemma-3-27b-it-4bit"
+temperature = 0.0
+
+# ── Document Extraction (MarkItDown) ──────────────────────────────
+# Configure options for the MarkItDown ingestion engine.
+# Local-first converters (PyMuPDF4LLM, Tesseract, Whisper) take precedence by default.
+[extraction]
+# Optional Google Cloud / endpoint variables for custom converters:
+# google_cloud_project = "${GOOGLE_CLOUD_PROJECT}"
+# google_application_credentials = "${GOOGLE_APPLICATION_CREDENTIALS}"
+#
+# Azure fallbacks if configured:
+# docintel_endpoint = "${DOCINTEL_ENDPOINT}"
+# cu_endpoint = "${CU_ENDPOINT}"
+
+# Image/scanned document extraction backend: "tesseract" (default, local) or "vlm" (Ollama Qwen2.5-VL)
+image_backend = "tesseract"
+
+# VLM configuration (used when image_backend = "vlm")
+# vlm_endpoint = "http://127.0.0.1:11434" # Defaults to your local Ollama base URL if unset
+# vlm_model = "qwen2.5-vl"
+# vlm_prompt = "Transcribe all text, tables, and structured layouts from this image into clean Markdown. Preserve headers, bullet points, and tables. Do not add introductory comments or conversational filler."
+
+

@@ -1,0 +1,16 @@
+[Unit]
+Description=Servo-Skull Webhook Deployment Receiver
+After=network.target
+
+[Service]
+Type=simple
+User=servo-skull
+# NOTE: Adjust WorkingDirectory, ExecStart, and User to match your environment.
+WorkingDirectory=/opt/servo-skull/deploy
+ExecStart=/usr/bin/python3 /opt/servo-skull/deploy/webhook_receiver.py
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

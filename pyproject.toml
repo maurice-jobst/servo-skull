@@ -1,0 +1,56 @@
+[project]
+name = "servo-skull"
+version = "1.0.0"
+description = "A local-first document scoping engine: extract → ground → markdown gap analysis against a domain codex."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = ["document-analysis", "gap-analysis", "rag", "llm", "local-first", "ocr", "pdf"]
+dependencies = [
+    "lexmechanic[pdf,whisper]",
+    "python-docx>=0.8.11",
+    "openpyxl>=3.0.0",
+    "python-pptx>=0.6.21",
+    "outlines>=0.0.44",
+    "pydantic>=2.0.0",
+    "watchdog>=4.0",
+    "pytest>=8.0.0",
+    "google-genai",
+    "gliner>=0.2.0",
+]
+
+[tool.uv.sources]
+lexmechanic = { git = "https://github.com/maurice-jobst/lexmechanic.git" }
+
+
+[project.optional-dependencies]
+mlx = [
+    "mlx-lm>=0.21.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.5.0,<0.12"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "servo_skull"
+module-root = "src"
+
+[project.scripts]
+servo-skull-extract = "servo_skull._cli:extract"
+servo-skull-grounder = "servo_skull._cli:grounder"
+servo-skull-markdown = "servo_skull._cli:markdown"
+servo-skull-spool-watch = "servo_skull._cli:spool_watch"
+servo-skull-worker = "servo_skull._cli:worker"
+servo-skull-assimilate = "servo_skull._cli:assimilate"
+servo-skull-cogitate = "servo_skull._cli:cogitate"
+servo-skull-inscribe = "servo_skull._cli:inscribe"
+servo-skull-awaken = "servo_skull._cli:awaken"
+servo-skull-research = "servo_skull._cli:research"
+servo-skull-index = "servo_skull.rag_indexer:index_cmd"
+servo-skull-search = "servo_skull.rag_indexer:search_cmd"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+filterwarnings = ["ignore::DeprecationWarning"]
