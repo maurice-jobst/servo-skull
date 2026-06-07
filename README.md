@@ -20,6 +20,8 @@ Turn unstructured specs, briefings, and entropic media into structured, grounded
 
 Servo-Skull ingests messy briefs — RFPs, spec sheets, meeting recordings, chat transcripts, scanned PDFs — and outputs a structured, **citation-grounded** analysis that highlights **gaps, compliance risks, and self-contradictions**, scored against a domain codex you supply. Every claim traces back to the source text, so no model invents what a document said. It runs entirely against local models (Ollama / MLX), with an optional cloud fallback.
 
+**PII sovereignty by design.** No document leaves your infrastructure. Servo-Skull processes sensitive material — public procurement documents, regulatory filings, internal audits — entirely on hardware you control. GDPR compliance is architectural, not a policy statement: there is no cloud API call over which personal data could travel.
+
 ```
                  ┌────────────────────────────────────────────────┐
    document ───► │   Extractor  (layout-preserving ingestion)    │ ──► DocumentExtract (JSON)
@@ -70,6 +72,10 @@ LLM routing is local-first by default — point it at an Ollama endpoint and sup
 ## The name
 
 The Mechanicus naming is deliberate, not decoration: a servo-skull is a hovering construct that reads, scans, and scribes so its operator's attention stays free. That's exactly the job. The skull does the reading so your mind stays pure. ✙
+
+## Where to get help
+
+Open an issue on [GitHub](https://github.com/maurice-jobst/servo-skull/issues).
 
 ---
 
