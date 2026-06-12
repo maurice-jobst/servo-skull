@@ -41,3 +41,4 @@ spool/
 .idea/
 .vscode/
 *.swp
+artifacts/
